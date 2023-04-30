@@ -141,6 +141,90 @@ for (let i = 0; i < keys.length; i += 1) {
     keys[i].setAttribute('keyname', keys[i].innerText);
     keys[i].setAttribute('upperCaseName', keys[i].innerText.toUpperCase());
   }
+
+  if (keys[i].getAttribute('keyname') === '`') {
+    keys[i].setAttribute('upperCaseName', '~');
+  }
+
+  if (keys[i].getAttribute('keyname') === '1') {
+    keys[i].setAttribute('upperCaseName', '!');
+  }
+
+  if (keys[i].getAttribute('keyname') === '2') {
+    keys[i].setAttribute('upperCaseName', '@');
+  }
+
+  if (keys[i].getAttribute('keyname') === '3') {
+    keys[i].setAttribute('upperCaseName', '#');
+  }
+
+  if (keys[i].getAttribute('keyname') === '4') {
+    keys[i].setAttribute('upperCaseName', '$');
+  }
+
+  if (keys[i].getAttribute('keyname') === '5') {
+    keys[i].setAttribute('upperCaseName', '%');
+  }
+
+  if (keys[i].getAttribute('keyname') === '6') {
+    keys[i].setAttribute('upperCaseName', '^');
+  }
+
+  if (keys[i].getAttribute('keyname') === '7') {
+    keys[i].setAttribute('upperCaseName', '&');
+  }
+
+  if (keys[i].getAttribute('keyname') === '8') {
+    keys[i].setAttribute('upperCaseName', '*');
+  }
+
+  if (keys[i].getAttribute('keyname') === '9') {
+    keys[i].setAttribute('upperCaseName', '(');
+  }
+
+  if (keys[i].getAttribute('keyname') === '0') {
+    keys[i].setAttribute('upperCaseName', ')');
+  }
+
+  if (keys[i].getAttribute('keyname') === '-') {
+    keys[i].setAttribute('upperCaseName', '_');
+  }
+
+  if (keys[i].getAttribute('keyname') === '=') {
+    keys[i].setAttribute('upperCaseName', '+');
+  }
+
+  if (keys[i].getAttribute('keyname') === '[') {
+    keys[i].setAttribute('upperCaseName', '{');
+  }
+
+  if (keys[i].getAttribute('keyname') === ']') {
+    keys[i].setAttribute('upperCaseName', '}');
+  }
+
+  if (keys[i].getAttribute('keyname') === '\\') {
+    keys[i].setAttribute('upperCaseName', '|');
+  }
+
+  if (keys[i].getAttribute('keyname') === ';') {
+    keys[i].setAttribute('upperCaseName', ':');
+  }
+
+  if (keys[i].getAttribute('keyname') === '\'') {
+    keys[i].setAttribute('upperCaseName', '"');
+  }
+
+  if (keys[i].getAttribute('keyname') === ',') {
+    keys[i].setAttribute('upperCaseName', '<');
+  }
+
+  if (keys[i].getAttribute('keyname') === '.') {
+    keys[i].setAttribute('upperCaseName', '>');
+  }
+
+  if (keys[i].getAttribute('keyname') === '/') {
+    keys[i].setAttribute('upperCaseName', '?');
+  }
 }
 
 window.addEventListener('keydown', (e) => {
@@ -158,6 +242,15 @@ window.addEventListener('keydown', (e) => {
 
   if (e.code === 'ShiftRight') {
     shiftRight.classList.add('active');
+  }
+  //!dfghjklkjh
+
+  if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+    for (let j = 0; j < keys.length; j += 1) {
+      if (keys[j].getAttribute('upperCaseName')) {
+        keys[j].textContent = keys[j].getAttribute('upperCaseName');
+      }
+    }
   }
 
   if (e.code === 'CapsLock') {
@@ -205,8 +298,18 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
+window.addEventListener('keyup', (e) => {
+  if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+    for (let j = 0; j < keys.length; j += 1) {
+      if (keys[j].getAttribute('upperCaseName')) {
+        keys[j].textContent = keys[j].getAttribute('keyname');
+      }
+    }
+  }
+});
+
 for (let i = 0; i < keys.length; i += 1) {
-  keys[i].addEventListener('click', () => {
+  keys[i].addEventListener('mousedown', () => {
     if (keys[i].className === 'keys' || keys[i].className === 'keys space_key' || keys[i].className === 'keys arrow-left_key'
     || keys[i].className === 'keys arrow-down_key' || keys[i].className === 'keys arrow-right_key'
     || keys[i].className === 'keys arrow-up_key') {
@@ -234,6 +337,37 @@ for (let i = 0; i < keys.length; i += 1) {
           if (keys[j].getAttribute('keyname')) {
             keys[j].textContent = keys[j].getAttribute('upperCaseName');
           }
+        }
+      }
+    }
+
+    if (keys[i].classList.contains('shift_right')) {
+      shiftRight.classList.add('active');
+      for (let j = 0; j < keys.length; j += 1) {
+        if (keys[j].getAttribute('upperCaseName')) {
+          keys[j].textContent = keys[j].getAttribute('upperCaseName');
+        }
+      }
+    }
+
+    if (keys[i].classList.contains('shift_left')) {
+      shiftLeft.classList.add('active');
+      for (let j = 0; j < keys.length; j += 1) {
+        if (keys[j].getAttribute('upperCaseName')) {
+          keys[j].textContent = keys[j].getAttribute('upperCaseName');
+        }
+      }
+    }
+  });
+}
+
+for (let i = 0; i < keys.length; i += 1) {
+  keys[i].addEventListener('mouseout', () => {
+    if (keys[i].classList.contains('shift_right') || keys[i].classList.contains('shift_left')) {
+      keys[i].classList.remove('active');
+      for (let j = 0; j < keys.length; j += 1) {
+        if (keys[j].getAttribute('upperCaseName')) {
+          keys[j].textContent = keys[j].getAttribute('keyname');
         }
       }
     }
