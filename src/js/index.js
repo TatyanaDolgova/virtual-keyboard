@@ -122,6 +122,7 @@ for (let i = 0; i < keys.length; i += 1) {
 }
 
 window.addEventListener('keydown', (e) => {
+  // console.log(e.code);
   for (let i = 0; i < keys.length; i += 1) {
     if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) {
       keys[i].classList.add('active');
@@ -138,8 +139,24 @@ window.addEventListener('keydown', (e) => {
     if (e.code === 'CapsLock') {
       capsLock.classList.toggle('active');
     }
+
+    if (e.code === 'Enter') {
+      enterKey.classList.add('active');
+    }
   }
 });
+
+for (let i = 0; i < keys.length; i += 1) {
+  keys[i].addEventListener('click', () => {
+    if ()
+    textarea.value += keys[i].textContent;
+    keys[i].classList.add('active');
+
+    setTimeout(() => {
+      keys[i].classList.remove('active');
+    }, 200);
+  });
+}
 
 window.addEventListener('keyup', (e) => {
   for (let i = 0; i < keys.length; i += 1) {
@@ -158,6 +175,10 @@ window.addEventListener('keyup', (e) => {
     if (e.code === 'ShiftRight') {
       shiftLeft.classList.remove('active');
       shiftLeft.classList.add('remove');
+    }
+    if (e.code === 'Enter') {
+      enterKey.classList.remove('active');
+      enterKey.classList.add('remove');
     }
     setTimeout(() => {
       keys[i].classList.remove('remove');
