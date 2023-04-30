@@ -2,7 +2,9 @@ const line = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'DEL'],
   ['Caps Lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'ENTER'],
   ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl']];
+  ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl']];
+
+// let language = 'ru';
 
 const page = document.querySelector('.page');
 const container = document.createElement('div');
@@ -36,10 +38,6 @@ for (let i = 0; i < line.length; i += 1) {
 
     if (line[i][j] === 'Tab') {
       key.classList.add('tab_key');
-    }
-
-    if (line[i][j] === '\\') {
-      key.classList.add('slash_key');
     }
 
     if (line[i][j] === 'DEL') {
@@ -84,8 +82,28 @@ for (let i = 0; i < line.length; i += 1) {
       }
     }
 
-    if (line[i][j] === '') {
+    if (line[i][j] === ' ') {
       key.classList.add('space_key');
+    }
+
+    if (line[i][j] === 'Win') {
+      key.classList.add('win_key');
+    }
+
+    if (line[i][j] === '▲') {
+      key.classList.add('arrow-up_key');
+    }
+
+    if (line[i][j] === '◄') {
+      key.classList.add('arrow-left_key');
+    }
+
+    if (line[i][j] === '▼') {
+      key.classList.add('arrow-down_key');
+    }
+
+    if (line[i][j] === '►') {
+      key.classList.add('arrow-right_key');
     }
 
     key.textContent = line[i][j];
@@ -109,58 +127,122 @@ const spaceKey = document.querySelector('.space_key');
 const shiftLeft = document.querySelector('.shift_left');
 const shiftRight = document.querySelector('.shift_right');
 const capsLock = document.querySelector('.caps_key');
-const wrapper = document.querySelector('.keyboard_wrapper');
 const backspaceKey = document.querySelector('.backspace_key');
 const delKey = document.querySelector('.del_key');
 const tabKey = document.querySelector('.tab_key');
-const slashKey = document.querySelector('.slash_key');
 const enterKey = document.querySelector('.enter_key');
+const arrowUp = document.querySelector('.arrow-up_key');
+const arrowDown = document.querySelector('.arrow-down_key');
+const arrowLeft = document.querySelector('.arrow-left_key');
+const arrowRight = document.querySelector('.arrow-right_key');
 
 for (let i = 0; i < keys.length; i += 1) {
-  keys[i].setAttribute('keyname', keys[i].innerText);
-  keys[i].setAttribute('lowerCaseName', keys[i].innerText.toLowerCase());
+  if (keys[i].className === 'keys') {
+    keys[i].setAttribute('keyname', keys[i].innerText);
+    keys[i].setAttribute('upperCaseName', keys[i].innerText.toUpperCase());
+  }
 }
 
 window.addEventListener('keydown', (e) => {
-  // console.log(e.code);
+  console.log(e.code);
   for (let i = 0; i < keys.length; i += 1) {
-    if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) {
+    if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
       keys[i].classList.add('active');
+      textarea.value += keys[i].textContent;
     }
-    if (e.code === 'Space') {
-      spaceKey.classList.add('active');
-    }
-    if (e.code === 'ShiftLeft') {
-      shiftRight.classList.remove('active');
-    }
-    if (e.code === 'ShiftRight') {
-      shiftLeft.classList.remove('active');
-    }
-    if (e.code === 'CapsLock') {
-      capsLock.classList.toggle('active');
-    }
+  }
 
-    if (e.code === 'Enter') {
-      enterKey.classList.add('active');
-    }
+  if (e.code === 'ShiftLeft') {
+    shiftLeft.classList.add('active');
+  }
+
+  if (e.code === 'ShiftRight') {
+    shiftRight.classList.add('active');
+  }
+
+  if (e.code === 'CapsLock') {
+    capsLock.click();
+  }
+
+  if (e.code === 'Enter') {
+    enterKey.classList.add('active');
+    textarea.value += '\n';
+  }
+
+  if (e.code === 'Space') {
+    spaceKey.classList.add('active');
+    textarea.value += ' ';
+  }
+
+  if (e.code === 'Backspace') {
+    backspaceKey.classList.add('active');
+    textarea.value = textarea.value.slice(0, -1);
+  }
+
+  if (e.code === 'Tab') {
+    tabKey.classList.add('active');
+    textarea.value += '    ';
+  }
+
+  if (e.code === 'ArrowUp') {
+    arrowUp.classList.add('active');
+    textarea.value += '▲';
+  }
+
+  if (e.code === 'ArrowDown') {
+    arrowDown.classList.add('active');
+    textarea.value += '▼';
+  }
+
+  if (e.code === 'ArrowLeft') {
+    arrowLeft.classList.add('active');
+    textarea.value += '◄';
+  }
+
+  if (e.code === 'ArrowRight') {
+    arrowRight.classList.add('active');
+    textarea.value += '►';
   }
 });
 
 for (let i = 0; i < keys.length; i += 1) {
   keys[i].addEventListener('click', () => {
-    if ()
-    textarea.value += keys[i].textContent;
-    keys[i].classList.add('active');
+    if (keys[i].className === 'keys' || keys[i].className === 'keys space_key' || keys[i].className === 'keys arrow-left_key'
+    || keys[i].className === 'keys arrow-down_key' || keys[i].className === 'keys arrow-right_key'
+    || keys[i].className === 'keys arrow-up_key') {
+      textarea.value += keys[i].textContent;
+      keys[i].classList.add('active');
+      setTimeout(() => {
+        keys[i].classList.remove('active');
+      }, 200);
+    }
+    if (keys[i].classList.contains('backspace_key')) {
+      textarea.value = textarea.value.slice(0, -1);
+    }
 
-    setTimeout(() => {
-      keys[i].classList.remove('active');
-    }, 200);
+    if (keys[i].classList.contains('caps_key')) {
+      if (capsLock.classList.contains('active')) {
+        capsLock.classList.remove('active');
+        for (let j = 0; j < keys.length; j += 1) {
+          if (keys[j].getAttribute('upperCaseName')) {
+            keys[j].textContent = keys[j].getAttribute('keyname');
+          }
+        }
+      } else {
+        capsLock.classList.add('active');
+        for (let j = 0; j < keys.length; j += 1) {
+          if (keys[j].getAttribute('keyname')) {
+            keys[j].textContent = keys[j].getAttribute('upperCaseName');
+          }
+        }
+      }
+    }
   });
 }
 
 window.addEventListener('keyup', (e) => {
   for (let i = 0; i < keys.length; i += 1) {
-    if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) {
+    if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
       keys[i].classList.remove('active');
       keys[i].classList.add('remove');
     }
@@ -169,16 +251,44 @@ window.addEventListener('keyup', (e) => {
       spaceKey.classList.add('remove');
     }
     if (e.code === 'ShiftLeft') {
-      shiftRight.classList.remove('active');
-      shiftRight.classList.add('remove');
-    }
-    if (e.code === 'ShiftRight') {
       shiftLeft.classList.remove('active');
       shiftLeft.classList.add('remove');
+    }
+    if (e.code === 'ShiftRight') {
+      shiftRight.classList.remove('active');
+      shiftRight.classList.add('remove');
     }
     if (e.code === 'Enter') {
       enterKey.classList.remove('active');
       enterKey.classList.add('remove');
+    }
+    if (e.code === 'Backspace') {
+      backspaceKey.classList.remove('active');
+      backspaceKey.classList.add('remove');
+    }
+    if (e.code === 'Tab') {
+      tabKey.classList.remove('active');
+      tabKey.classList.add('remove');
+    }
+
+    if (e.code === 'ArrowUp') {
+      arrowUp.classList.remove('active');
+      arrowUp.classList.add('remove');
+    }
+
+    if (e.code === 'ArrowDown') {
+      arrowDown.classList.remove('active');
+      arrowDown.classList.add('remove');
+    }
+
+    if (e.code === 'ArrowLeft') {
+      arrowLeft.classList.remove('active');
+      arrowLeft.classList.add('remove');
+    }
+
+    if (e.code === 'ArrowRight') {
+      arrowRight.classList.remove('active');
+      arrowRight.classList.add('remove');
     }
     setTimeout(() => {
       keys[i].classList.remove('remove');
