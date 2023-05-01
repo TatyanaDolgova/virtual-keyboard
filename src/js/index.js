@@ -155,10 +155,12 @@ container.appendChild(lang);
 
 function setAttribute() {
   const key = document.querySelectorAll('.keys');
+  const newArray = line.flat();
   for (let i = 0; i < key.length; i += 1) {
     if (key[i].className === 'keys') {
       key[i].setAttribute('keyname', key[i].innerText);
       key[i].setAttribute('upperCaseName', key[i].innerText.toUpperCase());
+      key[i].setAttribute('code', newArray[i]);
     }
 
     if (key[i].getAttribute('keyname') === '`') {
@@ -288,11 +290,12 @@ const addActionKey = () => {
   const arrowLeft = document.querySelector('.arrow-left_key');
   const arrowRight = document.querySelector('.arrow-right_key');
   const winKey = document.querySelector('.win_key');
+
   window.addEventListener('keydown', (e) => {
     for (let i = 0; i < keys.length; i += 1) {
       e.preventDefault();
-      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName'
-      || e.key === line[i])) {
+      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')
+      || e.key === keys[i].getAttribute('code')) {
         keys[i].classList.add('active');
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
@@ -554,7 +557,8 @@ const addActionKey = () => {
 
   window.addEventListener('keyup', (e) => {
     for (let i = 0; i < keys.length; i += 1) {
-      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
+      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')
+      || e.key === keys[i].getAttribute('code')) {
         keys[i].classList.remove('active');
         keys[i].classList.add('remove');
       }
