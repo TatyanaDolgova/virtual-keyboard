@@ -132,7 +132,7 @@ const buildDOM = () => {
 
       if (language === 'en') {
         key.textContent = line[i][j];
-      } else if (language === 'ru') {
+      } else {
         key.textContent = line2[i][j];
       }
       row.appendChild(key);
