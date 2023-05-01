@@ -291,122 +291,6 @@ const addActionKey = () => {
   const arrowRight = document.querySelector('.arrow-right_key');
   const winKey = document.querySelector('.win_key');
 
-  window.addEventListener('keydown', (e) => {
-    for (let i = 0; i < keys.length; i += 1) {
-      e.preventDefault();
-      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')
-      || e.key === keys[i].getAttribute('code')) {
-        keys[i].classList.add('active');
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        textarea.value = textarea.value.substring(0, start)
-          + keys[i].textContent
-          + textarea.value.substring(end, textarea.value.length);
-        textarea.setSelectionRange(start + 1, end + 1);
-
-        textarea.focus();
-      }
-    }
-
-    if (e.code === 'Delete') {
-      delKey.classList.add('active');
-    }
-
-    if (e.code === 'ShiftLeft') {
-      shiftLeft.classList.add('active');
-    }
-
-    if (e.code === 'ShiftRight') {
-      shiftRight.classList.add('active');
-    }
-
-    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-      for (let j = 0; j < keys.length; j += 1) {
-        if (keys[j].getAttribute('upperCaseName')) {
-          keys[j].textContent = keys[j].getAttribute('upperCaseName');
-        }
-
-        if (keys[j].getAttribute('shift')) {
-          keys[j].textContent = keys[j].getAttribute('shift');
-        }
-      }
-    }
-
-    if (e.code === 'ControlLeft') {
-      ctrlLeft.classList.add('active');
-      e.preventDefault();
-    }
-
-    if (e.code === 'ControlRight') {
-      ctrlRight.classList.add('active');
-    }
-
-    if (e.code === 'AltLeft') {
-      altLeft.classList.add('active');
-    }
-
-    if (e.code === 'AltRight') {
-      altRight.classList.add('active');
-    }
-
-    if (e.code === 'MetaLeft') {
-      winKey.classList.add('active');
-    }
-
-    if (e.code === 'CapsLock') {
-      e.preventDefault();
-      capsLock.click();
-    }
-
-    if (e.code === 'Enter') {
-      enterKey.classList.add('active');
-      e.preventDefault();
-      textarea.value += '\n';
-    }
-
-    if (e.code === 'Space') {
-      spaceKey.classList.add('active');
-      textarea.value += ' ';
-    }
-
-    if (e.code === 'Backspace') {
-      e.preventDefault();
-      backspaceKey.classList.add('active');
-      backspaceKey.click();
-    }
-
-    if (e.code === 'Delete') {
-      e.preventDefault();
-      delKey.classList.add('active');
-      delKey.click();
-    }
-
-    if (e.code === 'Tab') {
-      tabKey.classList.add('active');
-      textarea.value += '    ';
-    }
-
-    if (e.code === 'ArrowUp') {
-      arrowUp.classList.add('active');
-      textarea.value += '▲';
-    }
-
-    if (e.code === 'ArrowDown') {
-      arrowDown.classList.add('active');
-      textarea.value += '▼';
-    }
-
-    if (e.code === 'ArrowLeft') {
-      arrowLeft.classList.add('active');
-      textarea.value += '◄';
-    }
-
-    if (e.code === 'ArrowRight') {
-      arrowRight.classList.add('active');
-      textarea.value += '►';
-    }
-  });
-
   for (let i = 0; i < keys.length; i += 1) {
     keys[i].addEventListener('click', () => {
       if (keys[i].className === 'keys' || keys[i].className === 'keys space_key' || keys[i].className === 'keys arrow-left_key'
@@ -554,6 +438,126 @@ const addActionKey = () => {
       }
     });
   }
+
+  function addKeydown(e) {
+    // console.log(1);
+    for (let i = 0; i < keys.length; i += 1) {
+      e.preventDefault();
+      if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')
+      || e.key === keys[i].getAttribute('code')) {
+        // console.log(e.currenTarget);
+        keys[i].classList.add('active');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        textarea.value = textarea.value.substring(0, start)
+          + keys[i].textContent
+          + textarea.value.substring(end, textarea.value.length);
+        textarea.setSelectionRange(start + 1, end + 1);
+
+        textarea.focus();
+      }
+    }
+
+    if (e.code === 'Delete') {
+      delKey.classList.add('active');
+    }
+
+    if (e.code === 'ShiftLeft') {
+      shiftLeft.classList.add('active');
+    }
+
+    if (e.code === 'ShiftRight') {
+      shiftRight.classList.add('active');
+    }
+
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+      for (let j = 0; j < keys.length; j += 1) {
+        if (keys[j].getAttribute('upperCaseName')) {
+          keys[j].textContent = keys[j].getAttribute('upperCaseName');
+        }
+
+        if (keys[j].getAttribute('shift')) {
+          keys[j].textContent = keys[j].getAttribute('shift');
+        }
+      }
+    }
+
+    if (e.code === 'ControlLeft') {
+      ctrlLeft.classList.add('active');
+      e.preventDefault();
+    }
+
+    if (e.code === 'ControlRight') {
+      ctrlRight.classList.add('active');
+    }
+
+    if (e.code === 'AltLeft') {
+      altLeft.classList.add('active');
+    }
+
+    if (e.code === 'AltRight') {
+      altRight.classList.add('active');
+    }
+
+    if (e.code === 'MetaLeft') {
+      winKey.classList.add('active');
+    }
+
+    if (e.code === 'CapsLock') {
+      e.preventDefault();
+      capsLock.click();
+    }
+
+    if (e.code === 'Enter') {
+      enterKey.classList.add('active');
+      e.preventDefault();
+      textarea.value += '\n';
+    }
+
+    if (e.code === 'Space') {
+      spaceKey.classList.add('active');
+      textarea.value += ' ';
+    }
+
+    if (e.code === 'Backspace') {
+      e.preventDefault();
+      backspaceKey.classList.add('active');
+      backspaceKey.click();
+    }
+
+    if (e.code === 'Delete') {
+      e.preventDefault();
+      delKey.classList.add('active');
+      delKey.click();
+    }
+
+    if (e.code === 'Tab') {
+      tabKey.classList.add('active');
+      textarea.value += '    ';
+    }
+
+    if (e.code === 'ArrowUp') {
+      arrowUp.classList.add('active');
+      textarea.value += '▲';
+    }
+
+    if (e.code === 'ArrowDown') {
+      arrowDown.classList.add('active');
+      textarea.value += '▼';
+    }
+
+    if (e.code === 'ArrowLeft') {
+      arrowLeft.classList.add('active');
+      textarea.value += '◄';
+    }
+
+    if (e.code === 'ArrowRight') {
+      arrowRight.classList.add('active');
+      textarea.value += '►';
+    }
+  }
+
+  window.addEventListener('keydown', addKeydown, true);
 
   window.addEventListener('keyup', (e) => {
     for (let i = 0; i < keys.length; i += 1) {
