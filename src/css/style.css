@@ -38,6 +38,7 @@
   transition: .2s;
   cursor: pointer;
   font-weight: 500;
+  font-size: 17px;
 }
 
 .keys:hover {
@@ -82,7 +83,7 @@
   width: 100%;
   height: 120px;
   margin-bottom: 30px;
-  font-size: 22px;
+  font-size: 18px;
   padding: 10px;
   transition: .2s;
 }

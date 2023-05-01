@@ -143,97 +143,101 @@ for (let i = 0; i < keys.length; i += 1) {
   }
 
   if (keys[i].getAttribute('keyname') === '`') {
-    keys[i].setAttribute('upperCaseName', '~');
+    keys[i].setAttribute('shift', '~');
   }
 
   if (keys[i].getAttribute('keyname') === '1') {
-    keys[i].setAttribute('upperCaseName', '!');
+    keys[i].setAttribute('shift', '!');
   }
 
   if (keys[i].getAttribute('keyname') === '2') {
-    keys[i].setAttribute('upperCaseName', '@');
+    keys[i].setAttribute('shift', '@');
   }
 
   if (keys[i].getAttribute('keyname') === '3') {
-    keys[i].setAttribute('upperCaseName', '#');
+    keys[i].setAttribute('shift', '#');
   }
 
   if (keys[i].getAttribute('keyname') === '4') {
-    keys[i].setAttribute('upperCaseName', '$');
+    keys[i].setAttribute('shift', '$');
   }
 
   if (keys[i].getAttribute('keyname') === '5') {
-    keys[i].setAttribute('upperCaseName', '%');
+    keys[i].setAttribute('shift', '%');
   }
 
   if (keys[i].getAttribute('keyname') === '6') {
-    keys[i].setAttribute('upperCaseName', '^');
+    keys[i].setAttribute('shift', '^');
   }
 
   if (keys[i].getAttribute('keyname') === '7') {
-    keys[i].setAttribute('upperCaseName', '&');
+    keys[i].setAttribute('shift', '&');
   }
 
   if (keys[i].getAttribute('keyname') === '8') {
-    keys[i].setAttribute('upperCaseName', '*');
+    keys[i].setAttribute('shift', '*');
   }
 
   if (keys[i].getAttribute('keyname') === '9') {
-    keys[i].setAttribute('upperCaseName', '(');
+    keys[i].setAttribute('shift', '(');
   }
 
   if (keys[i].getAttribute('keyname') === '0') {
-    keys[i].setAttribute('upperCaseName', ')');
+    keys[i].setAttribute('shift', ')');
   }
 
   if (keys[i].getAttribute('keyname') === '-') {
-    keys[i].setAttribute('upperCaseName', '_');
+    keys[i].setAttribute('shift', '_');
   }
 
   if (keys[i].getAttribute('keyname') === '=') {
-    keys[i].setAttribute('upperCaseName', '+');
+    keys[i].setAttribute('shift', '+');
   }
 
   if (keys[i].getAttribute('keyname') === '[') {
-    keys[i].setAttribute('upperCaseName', '{');
+    keys[i].setAttribute('shift', '{');
   }
 
   if (keys[i].getAttribute('keyname') === ']') {
-    keys[i].setAttribute('upperCaseName', '}');
+    keys[i].setAttribute('shift', '}');
   }
 
   if (keys[i].getAttribute('keyname') === '\\') {
-    keys[i].setAttribute('upperCaseName', '|');
+    keys[i].setAttribute('shift', '|');
   }
 
   if (keys[i].getAttribute('keyname') === ';') {
-    keys[i].setAttribute('upperCaseName', ':');
+    keys[i].setAttribute('shift', ':');
   }
 
   if (keys[i].getAttribute('keyname') === '\'') {
-    keys[i].setAttribute('upperCaseName', '"');
+    keys[i].setAttribute('shift', '"');
   }
 
   if (keys[i].getAttribute('keyname') === ',') {
-    keys[i].setAttribute('upperCaseName', '<');
+    keys[i].setAttribute('shift', '<');
   }
 
   if (keys[i].getAttribute('keyname') === '.') {
-    keys[i].setAttribute('upperCaseName', '>');
+    keys[i].setAttribute('shift', '>');
   }
 
   if (keys[i].getAttribute('keyname') === '/') {
-    keys[i].setAttribute('upperCaseName', '?');
+    keys[i].setAttribute('shift', '?');
   }
 }
 
 window.addEventListener('keydown', (e) => {
-  console.log(e.code);
   for (let i = 0; i < keys.length; i += 1) {
+    e.preventDefault();
     if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
       keys[i].classList.add('active');
       textarea.value += keys[i].textContent;
     }
+  }
+
+  if (e.code === 'Delete') {
+    delKey.classList.add('active');
   }
 
   if (e.code === 'ShiftLeft') {
@@ -243,22 +247,27 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'ShiftRight') {
     shiftRight.classList.add('active');
   }
-  //!dfghjklkjh
 
   if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
     for (let j = 0; j < keys.length; j += 1) {
       if (keys[j].getAttribute('upperCaseName')) {
         keys[j].textContent = keys[j].getAttribute('upperCaseName');
       }
+
+      if (keys[j].getAttribute('shift')) {
+        keys[j].textContent = keys[j].getAttribute('shift');
+      }
     }
   }
 
   if (e.code === 'CapsLock') {
+    e.preventDefault();
     capsLock.click();
   }
 
   if (e.code === 'Enter') {
     enterKey.classList.add('active');
+    e.preventDefault();
     textarea.value += '\n';
   }
 
@@ -268,8 +277,15 @@ window.addEventListener('keydown', (e) => {
   }
 
   if (e.code === 'Backspace') {
+    e.preventDefault();
     backspaceKey.classList.add('active');
-    textarea.value = textarea.value.slice(0, -1);
+    backspaceKey.click();
+  }
+
+  if (e.code === 'Delete') {
+    e.preventDefault();
+    delKey.classList.add('active');
+    delKey.click();
   }
 
   if (e.code === 'Tab') {
@@ -309,7 +325,7 @@ window.addEventListener('keyup', (e) => {
 });
 
 for (let i = 0; i < keys.length; i += 1) {
-  keys[i].addEventListener('mousedown', () => {
+  keys[i].addEventListener('click', () => {
     if (keys[i].className === 'keys' || keys[i].className === 'keys space_key' || keys[i].className === 'keys arrow-left_key'
     || keys[i].className === 'keys arrow-down_key' || keys[i].className === 'keys arrow-right_key'
     || keys[i].className === 'keys arrow-up_key') {
@@ -319,33 +335,63 @@ for (let i = 0; i < keys.length; i += 1) {
         keys[i].classList.remove('active');
       }, 200);
     }
+
     if (keys[i].classList.contains('backspace_key')) {
-      textarea.value = textarea.value.slice(0, -1);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, start - 1)
+      + textarea.value.substring(end, textarea.value.length);
+      textarea.setSelectionRange(start - 1, end - 1);
+      textarea.focus();
+    }
+
+    if (keys[i].classList.contains('del_key')) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, start)
+      + textarea.value.substring(end + 1, textarea.value.length);
+      textarea.setSelectionRange(start, end);
+      textarea.focus();
+    }
+
+    if (keys[i].classList.contains('enter_key')) {
+      enterKey.classList.add('active');
+      textarea.value += '\n';
+      setTimeout(() => {
+        keys[i].classList.remove('active');
+      }, 200);
     }
 
     if (keys[i].classList.contains('caps_key')) {
       if (capsLock.classList.contains('active')) {
         capsLock.classList.remove('active');
         for (let j = 0; j < keys.length; j += 1) {
-          if (keys[j].getAttribute('upperCaseName')) {
+          if (keys[j].getAttribute('keyname')) {
             keys[j].textContent = keys[j].getAttribute('keyname');
           }
         }
       } else {
         capsLock.classList.add('active');
         for (let j = 0; j < keys.length; j += 1) {
-          if (keys[j].getAttribute('keyname')) {
+          if (keys[j].getAttribute('upperCaseName')) {
             keys[j].textContent = keys[j].getAttribute('upperCaseName');
           }
         }
       }
     }
+  });
+}
 
+for (let i = 0; i < keys.length; i += 1) {
+  keys[i].addEventListener('mousedown', () => {
     if (keys[i].classList.contains('shift_right')) {
       shiftRight.classList.add('active');
       for (let j = 0; j < keys.length; j += 1) {
         if (keys[j].getAttribute('upperCaseName')) {
           keys[j].textContent = keys[j].getAttribute('upperCaseName');
+        }
+        if (keys[j].getAttribute('shift')) {
+          keys[j].textContent = keys[j].getAttribute('shift');
         }
       }
     }
@@ -355,6 +401,9 @@ for (let i = 0; i < keys.length; i += 1) {
       for (let j = 0; j < keys.length; j += 1) {
         if (keys[j].getAttribute('upperCaseName')) {
           keys[j].textContent = keys[j].getAttribute('upperCaseName');
+        }
+        if (keys[j].getAttribute('shift')) {
+          keys[j].textContent = keys[j].getAttribute('shift');
         }
       }
     }
@@ -423,6 +472,11 @@ window.addEventListener('keyup', (e) => {
     if (e.code === 'ArrowRight') {
       arrowRight.classList.remove('active');
       arrowRight.classList.add('remove');
+    }
+
+    if (e.code === 'Delete') {
+      delKey.classList.remove('active');
+      delKey.classList.add('remove');
     }
     setTimeout(() => {
       keys[i].classList.remove('remove');
