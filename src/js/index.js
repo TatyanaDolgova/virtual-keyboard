@@ -232,7 +232,14 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
     if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
       keys[i].classList.add('active');
-      textarea.value += keys[i].textContent;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, start)
+      + keys[i].textContent
+      + textarea.value.substring(end, textarea.value.length);
+      textarea.setSelectionRange(start + 1, end + 1);
+
+      textarea.focus();
     }
   }
 
@@ -329,7 +336,15 @@ for (let i = 0; i < keys.length; i += 1) {
     if (keys[i].className === 'keys' || keys[i].className === 'keys space_key' || keys[i].className === 'keys arrow-left_key'
     || keys[i].className === 'keys arrow-down_key' || keys[i].className === 'keys arrow-right_key'
     || keys[i].className === 'keys arrow-up_key') {
-      textarea.value += keys[i].textContent;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, start)
+      + keys[i].textContent
+      + textarea.value.substring(end, textarea.value.length);
+      textarea.setSelectionRange(start + 1, end + 1);
+
+      textarea.focus();
+
       keys[i].classList.add('active');
       setTimeout(() => {
         keys[i].classList.remove('active');
