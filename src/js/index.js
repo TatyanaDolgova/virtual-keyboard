@@ -75,7 +75,7 @@ for (let i = 0; i < line.length; i += 1) {
     if (line[i][j] === 'Alt') {
       key.classList.add('alt_key');
 
-      if (line[i][j - 1] === '') {
+      if (line[i][j - 1] === ' ') {
         key.classList.add('alt_right');
       } else {
         key.classList.add('alt_left');
@@ -126,6 +126,10 @@ const keys = document.querySelectorAll('.keys');
 const spaceKey = document.querySelector('.space_key');
 const shiftLeft = document.querySelector('.shift_left');
 const shiftRight = document.querySelector('.shift_right');
+const ctrlLeft = document.querySelector('.ctrl_left');
+const ctrlRight = document.querySelector('.ctrl_right');
+const altLeft = document.querySelector('.alt_left');
+const altRight = document.querySelector('.alt_right');
 const capsLock = document.querySelector('.caps_key');
 const backspaceKey = document.querySelector('.backspace_key');
 const delKey = document.querySelector('.del_key');
@@ -135,6 +139,7 @@ const arrowUp = document.querySelector('.arrow-up_key');
 const arrowDown = document.querySelector('.arrow-down_key');
 const arrowLeft = document.querySelector('.arrow-left_key');
 const arrowRight = document.querySelector('.arrow-right_key');
+const winKey = document.querySelector('.win_key');
 
 for (let i = 0; i < keys.length; i += 1) {
   if (keys[i].className === 'keys') {
@@ -228,6 +233,7 @@ for (let i = 0; i < keys.length; i += 1) {
 }
 
 window.addEventListener('keydown', (e) => {
+  console.log(e.code);
   for (let i = 0; i < keys.length; i += 1) {
     e.preventDefault();
     if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
@@ -265,6 +271,26 @@ window.addEventListener('keydown', (e) => {
         keys[j].textContent = keys[j].getAttribute('shift');
       }
     }
+  }
+
+  if (e.code === 'ControlLeft') {
+    ctrlLeft.classList.add('active');
+  }
+
+  if (e.code === 'ControlRight') {
+    ctrlRight.classList.add('active');
+  }
+
+  if (e.code === 'AltLeft') {
+    altLeft.classList.add('active');
+  }
+
+  if (e.code === 'AltRight') {
+    altRight.classList.add('active');
+  }
+
+  if (e.code === 'MetaLeft') {
+    winKey.classList.add('active');
   }
 
   if (e.code === 'CapsLock') {
@@ -318,16 +344,6 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'ArrowRight') {
     arrowRight.classList.add('active');
     textarea.value += '►';
-  }
-});
-
-window.addEventListener('keyup', (e) => {
-  if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-    for (let j = 0; j < keys.length; j += 1) {
-      if (keys[j].getAttribute('upperCaseName')) {
-        keys[j].textContent = keys[j].getAttribute('keyname');
-      }
-    }
   }
 });
 
@@ -422,11 +438,31 @@ for (let i = 0; i < keys.length; i += 1) {
         }
       }
     }
+
+    if (keys[i].classList.contains('ctrl_left')) {
+      ctrlLeft.classList.add('active');
+    }
+
+    if (keys[i].classList.contains('ctrl_right')) {
+      ctrlRight.classList.add('active');
+    }
+
+    if (keys[i].classList.contains('alt_left')) {
+      altLeft.classList.add('active');
+    }
+
+    if (keys[i].classList.contains('alt_right')) {
+      altRight.classList.add('active');
+    }
+
+    if (keys[i].classList.contains('win_key')) {
+      winKey.classList.add('active');
+    }
   });
 }
 
 for (let i = 0; i < keys.length; i += 1) {
-  keys[i].addEventListener('mouseout', () => {
+  keys[i].addEventListener('mouseup', () => {
     if (keys[i].classList.contains('shift_right') || keys[i].classList.contains('shift_left')) {
       keys[i].classList.remove('active');
       for (let j = 0; j < keys.length; j += 1) {
@@ -434,6 +470,26 @@ for (let i = 0; i < keys.length; i += 1) {
           keys[j].textContent = keys[j].getAttribute('keyname');
         }
       }
+    }
+
+    if (keys[i].classList.contains('ctrl_left')) {
+      ctrlLeft.classList.remove('active');
+    }
+
+    if (keys[i].classList.contains('ctrl_right')) {
+      ctrlRight.classList.remove('active');
+    }
+
+    if (keys[i].classList.contains('alt_left')) {
+      altLeft.classList.remove('active');
+    }
+
+    if (keys[i].classList.contains('alt_right')) {
+      altRight.classList.remove('active');
+    }
+
+    if (keys[i].classList.contains('win_key')) {
+      winKey.classList.remove('active');
     }
   });
 }
@@ -456,6 +512,40 @@ window.addEventListener('keyup', (e) => {
       shiftRight.classList.remove('active');
       shiftRight.classList.add('remove');
     }
+
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+      for (let j = 0; j < keys.length; j += 1) {
+        if (keys[j].getAttribute('upperCaseName')) {
+          keys[j].textContent = keys[j].getAttribute('keyname');
+        }
+      }
+    }
+
+    if (e.code === 'ControlLeft') {
+      ctrlLeft.classList.remove('active');
+      ctrlLeft.classList.add('remove');
+    }
+
+    if (e.code === 'ControlRight') {
+      ctrlRight.classList.remove('active');
+      ctrlRight.classList.add('remove');
+    }
+
+    if (e.code === 'AltLeft') {
+      altLeft.classList.remove('active');
+      altLeft.classList.add('remove');
+    }
+
+    if (e.code === 'AltRight') {
+      altRight.classList.remove('active');
+      altRight.classList.add('remove');
+    }
+
+    if (e.code === 'MetaLeft') {
+      winKey.classList.remove('active');
+      winKey.classList.add('remove');
+    }
+
     if (e.code === 'Enter') {
       enterKey.classList.remove('active');
       enterKey.classList.add('remove');
